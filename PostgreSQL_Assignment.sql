@@ -22,8 +22,8 @@ CREATE TABLE species (
 -- Create sightings table
 CREATE TABLE sightings (
     sighting_id SERIAL PRIMARY KEY,
-    ranger_id INT REFERENCES rangers(ranger_id) ON DELETE SET NULL,
-    species_id INT REFERENCES species(species_id) ON DELETE SET NULL,
+    ranger_id INT NULL REFERENCES rangers(ranger_id) ON DELETE SET NULL,
+    species_id INT NOT NULL REFERENCES species(species_id),
     sighting_time TIMESTAMP NOT NULL,
     location VARCHAR(150) NOT NULL,
     notes TEXT
