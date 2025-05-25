@@ -23,7 +23,7 @@ CREATE TABLE species (
 CREATE TABLE sightings (
     sighting_id SERIAL PRIMARY KEY,
     ranger_id INT NULL REFERENCES rangers(ranger_id) ON DELETE SET NULL,
-    species_id INT NOT NULL REFERENCES species(species_id),
+    species_id INT REFERENCES species(species_id) ON DELETE CASCADE,
     sighting_time TIMESTAMP NOT NULL,
     location VARCHAR(150) NOT NULL,
     notes TEXT
@@ -91,10 +91,6 @@ SELECT sighting_id,
 FROM sightings;
 
 -- Problem 9
-INSERT INTO rangers (ranger_id ,name, region) VALUES ('Tahmid', 'Sylhet');
-INSERT INTO rangers (name, region) VALUES ('PH team', 'Sylhet');
-select * from rangers;
-
 DELETE FROM rangers
 WHERE ranger_id NOT IN (
     SELECT DISTINCT ranger_id
