@@ -82,14 +82,20 @@ SET conservation_status = 'Historic'
 WHERE discovery_date < '1800-01-01';
 
 -- Problem 8
-SELECT sighting_id,
-  CASE
+CREATE OR REPLACE FUNCTION get_time_of_day(sighting_time TIMESTAMP)
+RETURNS TEXT
+LANGUAGE SQL
+AS $$
+  SELECT CASE
     WHEN EXTRACT(HOUR FROM sighting_time) < 12 THEN 'Morning'
-    WHEN EXTRACT(HOUR FROM sighting_time) BETWEEN 12 AND 17 THEN 'Afternoon'
+    WHEN EXTRACT(HOUR FROM sighting_time) < 18 THEN 'Afternoon'
     ELSE 'Evening'
-  END AS time_of_day
-FROM sightings;
+  END;
+$$;
 
+-- Usage:
+SELECT sighting_id, get_time_of_day(sighting_time) AS time_of_day
+FROM sightings;
 -- Problem 9
 DELETE FROM rangers
 WHERE ranger_id NOT IN (
